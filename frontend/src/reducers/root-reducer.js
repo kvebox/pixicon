@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import session from './session-api-reducer';
 import errors from './errors-reducer';
 import users from './users-reducer';
-import cradles from './cradles_reducer';
+import doodles from './doodles_reducer';
 
 const rootReducer = combineReducers({
   session,
   errors,
   users,
-  cradles
+  doodles
 });
 
 export default rootReducer;
