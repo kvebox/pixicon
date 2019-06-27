@@ -3,36 +3,55 @@ const http = require('http');
 const socketIO = require('socket.io');
 
 // our localhost port
-const port = 4001
+const port = 4001;
 
-const app = express()
+const app = express();
 
 // our server instance
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 // This creates our socket using the instance of the server
-const io = socketIO(server)
+const io = socketIO(server);
 
 // This is what the socket.io syntax is like, we will work this later
+
+
+// io.on('connection', function (client) {
+//     console.log('New client connected');
+    // client.on('join', handleJoin);
+
+    // client.on('message', handleMessage);
+
+    // client.on('leave', handleLeave);
+
+    // client.on('players', handleGetPlayers);
+
+    // client.on('disconnect', function () {
+    //     console.log('client disconnected...', client.id);
+    //     // handleDisconnect();
+    // });
+
+    // client.on('error', function(err) {
+    //     console.log('received error from client:', client.id);
+    //     console.log(err);
+    // });
+// });
+
 io.on('connection', socket => {
-    console.log('New client connected')
+    console.log('New client connected');
 
-    socket.on('chat message', function(msg){
-        io.emit('chat message', msg);
-    })
+    socket.on('chat message', msg => {
+        socket.emit('chat message', msg);
+    });
 
-    // just like on the client side, we have a socket.on method that takes a callback function
-    socket.on('change color', (color) => {
-        // once we get a 'change color' event from one of our clients, we will send it to the rest of the clients
-        // we make use of the socket.emit method again with the argument given to use from the callback function above
-        console.log('Color Changed to: ', color)
-        io.sockets.emit('change color', color)
-    })
 
     // disconnect is fired when a client leaves the server
     socket.on('disconnect', () => {
-        console.log('user disconnected')
-    })
-})
+        console.log('user disconnected');
+    });
+});
 
-server.listen(port, () => console.log(`Listening on port ${port}`))
+server.listen(port, function (err) {
+    if (err) throw err;
+    console.log(`Listening on port ${port}`)
+});

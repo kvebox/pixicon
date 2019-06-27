@@ -5,6 +5,7 @@ import NavbarContainer from '../nav/navbar-container';
 import Canvas from '../canvas/canvas';
 import Chat from '../chat/chatBoard';
 import Game from '../game/game';
+import PlayerBoard from '../players/playerBoard';
 
 
 class Front extends React.Component {
@@ -12,19 +13,19 @@ class Front extends React.Component {
   render() {
     return (
       <div className={styles['frontBodyContainer']}>
-          <NavbarContainer />
+        <NavbarContainer />
         <div className={styles['frontBodyContentContainer']}>
-        
-          {/* <FrontCanvas /> */}
+
           <div className={styles.contentContainer}>
-          <Game />
-            <div className={styles.canvasChatContainer}>
+            <Game />
+            <div className={styles.playableContainer}>
+              <PlayerBoard />
               <Canvas />
               <Chat />
             </div>
           </div>
+
           <div className={styles['frontFooterContainer']}>
-            <p>This component only shows up if user is not logged in</p>
             <footer>
               <p>Copyright &copy; 2019</p> 
             </footer>
