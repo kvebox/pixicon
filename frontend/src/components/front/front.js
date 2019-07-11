@@ -20,7 +20,6 @@ class Front extends React.Component {
             <div className={styles.playableContainer}>
               <PlayerBoard />
               <Canvas />
-              <Chat />
             </div>
           </div>
 
