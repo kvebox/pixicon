@@ -30,7 +30,7 @@
     "socket": "node frontend/src/components/chat/chatUtil.js",
     "backend": "nodemon --exec babel-node backend/server.js",
     "frontend": "npm start --prefix frontend",
-    "postinstall": "cd frontend && npm install && webpack",
+    "postinstall": "webpack && cd frontend && npm install",
     "server": "concurrently \"npm run backend\" \"npm run frontend\" --ignore client",
     "start": "node backend/server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
