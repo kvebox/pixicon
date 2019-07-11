@@ -23,7 +23,6 @@
     "prop-types": "^15.7.2"
   },
   "scripts": {
-    "socket": "node frontend/src/components/chat/chatUtil.js",
     "backend": "nodemon --exec babel-node backend/server.js",
     "frontend": "npm start --prefix frontend",
     "postinstall": "cd frontend && npm install",

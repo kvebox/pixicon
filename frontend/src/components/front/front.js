@@ -3,7 +3,6 @@ import React from 'react';
 import styles from './front.module.css';
 import NavbarContainer from '../nav/navbar-container';
 import Canvas from '../canvas/canvas';
-import Chat from '../chat/chatBoard';
 import Game from '../game/game';
 import PlayerBoard from '../players/playerBoard';
 
