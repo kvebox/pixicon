@@ -27,6 +27,58 @@ src='https://66.media.tumblr.com/d241d723638a28d20fcc2a34dd196f44/tumblr_pv5ultc
 #### Technologies
 - MERN stack
 - socket.io
+
+In order to have an actual playable game, it was necessary to have real time updates of both images and messages to any connected clients/players, which was capable through websockets. In order to convert the canvas brush strokes into a form that could be sent using sockets, canvas's built in .toDataURL was used to save and convert the image on the canvas into a string form, saved to the state, and emitted to the server. On mounting, each client then received the broadcast image data, assigned as a new Image(), and drawn to the size of the canvas.
+
+```javascript
+    draw(e){
+        if (this.state.mode === 'erase') this.setState({strokeStyle: '#fff'});
+
+        if ((this.state.mode ==='erase' || this.state.mode === 'draw') 
+        && this.state.isDrawing && this.drawArea.current.contains(e.target)) {
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            ctx.strokeStyle = this.state.strokeStyle;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.lineWidth = this.state.lineWidth;
+            ctx.beginPath();
+            ctx.moveTo(this.lastX, this.lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [this.lastX, this.lastY] = [e.offsetX, e.offsetY];
+            this.sendImage();
+        }
+    }
+
+    componentDidMount(){
+        document.addEventListener('mousedown', this.handleMouseDown);
+        document.addEventListener('mousemove', this.draw);
+        document.addEventListener('click', this.eyedropper);
+
+        this.socket.on('sketch update', (image) => {
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            var myImg = new Image();
+            let imgsrc = image;
+            myImg.onload = function () {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(myImg, 0, 0);
+            };
+            myImg.src = imgsrc;
+        });
+    }
+    
+    
+    sendImage(){
+      let canvas = document.getElementById('canvas');
+      var dataURL = canvas.toDataURL();
+      this.setState({ saveState: dataURL });
+
+      this.socket.emit('sketch update', this.state.saveState);
+    }
+```
+
 - CSS modules
 - HTML/CSS/JavaScript
 
